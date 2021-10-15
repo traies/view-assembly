@@ -11,16 +11,72 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:view-assembly.viewAssembly"
+		"onLanguage:c",
+		"onLanguage:cpp"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
 		"commands": [
 			{
 				"command": "view-assembly.viewAssembly",
-				"title": "view-assembly: Show for current file."
+				"title": "Show assembly for current file.",
+				"category": "view-assembly",
+				"enablement": "editorLangId == c || editorLangId == cpp"
+			},
+			{
+				"command": "view-assembly.selectArchitecture",
+				"title": "Select architecture.",
+				"category": "view-assembly",
+				"enablement": "editorLangId == c || editorLangId == cpp"
+			},
+			{
+				"command": "view-assembly.selectOptimization",
+				"title": "Select optimization flags.",
+				"category": "view-assembly",
+				"enablement": "editorLangId == c || editorLangId == cpp"
+			},
+			{
+				"command": "view-assembly.selectMachineCode",
+				"title": "Toggle machine code.",
+				"category": "view-assembly",
+				"enablement": "editorLangId == c || editorLangId == cpp"
+			},
+			{
+				"command": "view-assembly.selectRunOnSave",
+				"title": "Toggle run on save functionality.",
+				"category": "view-assembly",
+				"enablement": "editorLangId == c || editorLangId == cpp"
 			}
-		]
+		],
+		"configuration": {
+			"title": "view-assembly",
+			"properties": {
+				"view-assembly.defaultArchitecture": {
+					"type": "string",
+					"default": "amd64",
+					"enum": ["amd64", "amd64_x86", "amd64_arm", "amd64_arm64"],
+					"description": "Default architecture for the assembly output."
+				},
+				"view-assembly.defaultOptimization": {
+					"type": "string",
+					"default": "/Od",
+					"enum": ["/Od", "/O1", "/O2"],
+					"description": "Default optimization flags."
+				},
+				"view-assembly.defaultMachineCode": {
+					"type": "string",
+					"default": "Off",
+					"enum": ["Off", "On"],
+					"description": "Toggle showing machine code side by side with instructions by default."
+				},
+				"view-assembly.defaultRunOnSave": {
+					"type": "string",
+					"default": "Off",
+					"enum": ["Off", "On"],
+					"description": "Toggle showing assembly when a C/C++ file is saved by default."
+				}
+			}
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run package",
